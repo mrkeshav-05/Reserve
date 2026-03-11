@@ -18,7 +18,6 @@ export const api = {
         400: errorSchemas.validation,
       }
     },
-    // post
     login: {
       method: 'POST' as const,
       path: '/api/auth/login' as const,

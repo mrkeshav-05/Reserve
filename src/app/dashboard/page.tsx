@@ -93,7 +93,7 @@ export default function Dashboard() {
           <DialogTrigger asChild>
             <Button className="rounded-xl h-12 px-6 shadow-lg shadow-primary/20 hover:shadow-xl transition-all">
               <Plus className="w-5 h-5 mr-2" />
-              List Surplus Food
+              List All the Surplus Food
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[600px] rounded-3xl p-0 overflow-hidden border-0">
@@ -134,7 +134,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="quantity">Quantity (portions)</Label>
+                    <Label htmlFor="quantity">Quantity of food (portions)</Label>
                     <Input 
                       id="quantity" 
                       type="number" 
@@ -146,7 +146,7 @@ export default function Dashboard() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="originalPrice">Original Price ($)</Label>
+                    <Label htmlFor="originalPrice">Original Price of food  ($)</Label>
                     <Input 
                       id="originalPrice" 
                       type="number" 
@@ -163,7 +163,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="expiry">Expiry Time</Label>
+                    <Label htmlFor="expiry">Expiry Time of food </Label>
                     <Input 
                       id="expiry" 
                       type="datetime-local" 

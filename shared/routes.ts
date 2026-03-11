@@ -18,6 +18,7 @@ export const api = {
         400: errorSchemas.validation,
       }
     },
+    // post
     login: {
       method: 'POST' as const,
       path: '/api/auth/login' as const,
@@ -27,6 +28,7 @@ export const api = {
         401: errorSchemas.unauthorized,
       }
     },
+    // get method 
     me: {
       method: 'GET' as const,
       path: '/api/auth/me' as const,
@@ -35,18 +37,21 @@ export const api = {
         401: errorSchemas.unauthorized,
       }
     },
+    // logout method 
     logout: {
       method: 'POST' as const,
       path: '/api/auth/logout' as const,
       responses: { 200: z.object({ message: z.string() }) }
     }
   },
+  // listing 
   listings: {
     list: {
       method: 'GET' as const,
       path: '/api/listings' as const,
       responses: { 200: z.array(z.custom<typeof foodListings.$inferSelect & { provider: typeof users.$inferSelect }>()) }
     },
+    // create post method 
     create: {
       method: 'POST' as const,
       path: '/api/listings' as const,
@@ -56,6 +61,7 @@ export const api = {
         401: errorSchemas.unauthorized,
       }
     },
+    // 
     get: {
       method: 'GET' as const,
       path: '/api/listings/:id' as const,

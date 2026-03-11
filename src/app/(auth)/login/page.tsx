@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Leaf, ArrowRight } from "lucide-react";
+import { GoogleIcon } from "@/components/ui/google-icon";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -93,6 +94,27 @@ export default function Login() {
               {loginMutation.isPending ? "Signing in..." : "Sign In"}
             </Button>
           </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border/60" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground font-medium">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <Button 
+            variant="outline" 
+            type="button" 
+            onClick={() => window.location.href = "/api/auth/google"}
+            className="w-full h-12 rounded-xl text-base shadow-sm hover:shadow-md transition-all font-semibold"
+          >
+            <GoogleIcon className="mr-2 h-5 w-5" />
+            Google
+          </Button>
 
           <p className="text-center text-muted-foreground">
             Don't have an account yet?{" "}

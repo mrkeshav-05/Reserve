@@ -148,7 +148,7 @@ export default function Register() {
             Small Actions, <br/>Massive Impact.
           </h2>
           <p className="text-emerald-50 text-lg leading-relaxed">
-            By joining FoodRescue, you are becoming part of a global community dedicated to fighting food waste and protecting our environment.
+            By joining Reserve, you are becoming part of a global community dedicated to fighting food waste and protecting our environment.
           </p>
         </div>
       </div>

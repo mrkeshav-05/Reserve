@@ -29,7 +29,7 @@ export function Layout({ children }: { children: ReactNode }) {
               <Leaf className="w-6 h-6" />
             </div>
             <span className="font-display font-bold text-2xl tracking-tight text-foreground">
-              Food<span className="text-primary">Rescue</span>
+              Re<span className="text-primary">serve</span>
             </span>
           </Link>
 
@@ -107,13 +107,13 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div className="flex items-center gap-2 opacity-80">
             <Sprout className="w-5 h-5 text-primary" />
-            <span className="font-display font-semibold text-lg">FoodRescue</span>
+            <span className="font-display font-semibold text-lg">Reserve</span>
           </div>
           <p className="text-muted-foreground text-sm">
             Saving meals. Offsetting carbon. Feeding communities.
           </p>
           <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} FoodRescue. All rights reserved.
+            © {new Date().getFullYear()} Reserve. All rights reserved.
           </div>
         </div>
       </footer>

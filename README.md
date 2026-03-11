@@ -1,6 +1,6 @@
-# Foodlink
+# Reserve
 
-Foodlink is a web application that helps connect food providers (like restaurants and bakeries) with NGOs and individuals to reduce food waste. Providers can list surplus food, and others can claim it.
+Reserve is a web application that helps connect food providers (like restaurants and bakeries) with NGOs and individuals to reduce food waste. Providers can list surplus food, and others can claim it.
 
 ## Prerequisites
 

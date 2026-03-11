@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-display: 'Outfit', sans-serif;
+
+    /* Soft, airy green background */
+    --background: 140 25% 98%;
+    --foreground: 160 50% 10%;
+    
+    /* Emerald primary */
+    --primary: 152 76% 36%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Deep forest green secondary */
+    --secondary: 160 50% 15%;
+    --secondary-foreground: 140 25% 98%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 160 50% 10%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 50% 10%;
+
+    --muted: 150 15% 92%;
+    --muted-foreground: 150 20% 45%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 20% 88%;
+    --input: 150 20% 88%;
+    --ring: 152 76% 36%;
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 160 50% 5%;
+    --foreground: 140 25% 98%;
+    --card: 160 40% 8%;
+    --card-foreground: 140 25% 98%;
+    --popover: 160 40% 8%;
+    --popover-foreground: 140 25% 98%;
+    --primary: 152 76% 45%;
+    --primary-foreground: 160 50% 10%;
+    --secondary: 150 15% 15%;
+    --secondary-foreground: 140 25% 98%;
+    --muted: 150 15% 15%;
+    --muted-foreground: 150 20% 65%;
+    --accent: 142 71% 45%;
+    --accent-foreground: 160 50% 10%;
+    --border: 150 15% 20%;
+    --input: 150 15% 20%;
+    --ring: 152 76% 45%;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-semibold tracking-tight;
+  }
+}
+
+/* Leaflet map overrides */
+.leaflet-container {
+  @apply rounded-2xl shadow-inner border border-border/50 z-0;
+  height: 100%;
+  width: 100%;
+}
+.leaflet-popup-content-wrapper {
+  @apply rounded-xl shadow-xl border border-border/50;
+}
+.leaflet-popup-content {
+  @apply m-0 p-0;
+}

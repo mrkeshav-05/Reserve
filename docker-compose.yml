@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: foodlink
+      POSTGRES_PASSWORD: foodlink_password
+      POSTGRES_DB: foodlink
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foodlink"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:3000"
+    environment:
+      - DATABASE_URL=postgres://foodlink:foodlink_password@db:5432/foodlink
+      - NODE_ENV=production
+      # - SESSION_SECRET=your_secret_key_here # Uncomment and set if your app requires a session secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

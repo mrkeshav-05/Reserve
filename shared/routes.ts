@@ -65,7 +65,7 @@ export const api = {
       method: 'GET' as const,
       path: '/api/listings/:id' as const,
       responses: {
-        200: z.custom<typeof foodListings.$inferSelect>(),
+        200: z.custom<typeof foodListings.$inferSelect & { provider: typeof users.$inferSelect }>(),
         404: errorSchemas.notFound,
       }
     },

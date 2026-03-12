@@ -3,7 +3,7 @@ import { getSession } from "@/lib/session";
 import { getListing, updateListing, getUser } from "@/lib/storage";
 import crypto from "crypto";
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
   if (!session.userId) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
@@ -12,7 +12,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ message: "Providers cannot claim food" }, { status: 401 });
   }
 
-  const id = parseInt(params.id);
+  const { id: rawId } = await params;
+  const id = parseInt(rawId);
   if (isNaN(id)) return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
 
   const listing = await getListing(id);

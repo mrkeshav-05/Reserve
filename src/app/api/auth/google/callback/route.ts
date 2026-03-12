@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:5001"}/api/auth/google/callback`;
+  const redirectUri = "http://localhost:5001";
 
   try {
     // 1. Exchange code for access token

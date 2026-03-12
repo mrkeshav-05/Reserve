@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Layout } from "@/components/layout";
 import { ImpactStats } from "@/components/impact-stats";
 import { FoodCard } from "@/components/food-card";
@@ -23,10 +24,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function Home() {
+function HomeContent() {
   const { data: listings, isLoading } = useListings();
   const { data: user } = useAuth();
   const claimMutation = useClaimListing();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const code = searchParams.get("code");
+    if (code) {
+      // Forward the stray Google OAuth code to our backend callback safely
+      router.replace(`/api/auth/google/callback?code=${code}`);
+    }
+  }, [searchParams, router]);
 
   const [filter, setFilter] = useState<"all" | "free" | "discount">("all");
 
@@ -152,6 +164,14 @@ export default function Home() {
         )}
       </section>
     </Layout>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-card flex items-center justify-center">Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
 

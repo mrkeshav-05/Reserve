@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:5001"}/api/auth/google/callback`;
+  const redirectUri = "http://localhost:5001";
 
   if (!clientId) {
     return NextResponse.json({ error: "Google Client ID is missing" }, { status: 500 });

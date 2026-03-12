@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { getListing } from "@/lib/storage";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id: rawId } = await params;
+  const id = parseInt(rawId);
   if (isNaN(id)) return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
 
   const listing = await getListing(id);

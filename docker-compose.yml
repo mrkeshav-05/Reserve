@@ -21,12 +21,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:3000"
+      - "3000:3000"
     environment:
       - DATABASE_URL=postgres://foodlink:foodlink_password@db:5432/foodlink
       - NODE_ENV=production
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:5001}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
     depends_on:
       db:
         condition: service_healthy

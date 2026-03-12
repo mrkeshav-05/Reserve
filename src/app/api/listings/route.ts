@@ -36,14 +36,21 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const session = await getSession();
-    if (!session.userId) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    console.log("Session in POST /api/listings:", session);
+    if (!session.userId) {
+      console.log("No userId in session");
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
     
     const user = await getUser(session.userId);
+    console.log("User details:", user);
     if (user?.role !== 'Provider') {
+      console.log("User role is not Provider:", user?.role);
       return NextResponse.json({ message: "Only providers can create listings" }, { status: 401 });
     }
     
     const body = await req.json();
+    console.log("Request body:", body);
     const input = insertFoodListingSchema.parse(body);
     
     const listing = await createListing({

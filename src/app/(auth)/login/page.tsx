@@ -37,7 +37,7 @@ export default function Login() {
             <Leaf className="w-8 h-8 text-emerald-400" />
           </div>
           <h1 className="text-5xl font-display font-bold leading-tight mb-6">
-            Welcome back to <span className="text-emerald-400">Reserve.</span>
+            Welcome back to <span className="text-emerald-400">Neednear.</span>
           </h1>
           <p className="text-emerald-100/80 text-xl leading-relaxed">
             Every login is another step towards zero waste. Thanks for being part of our community.

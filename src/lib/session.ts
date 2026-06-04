@@ -7,7 +7,7 @@ export interface SessionData {
 
 export const sessionOptions = {
   password: process.env.SESSION_SECRET || "complex_password_at_least_32_characters_long",
-  cookieName: "reserve_session",
+  cookieName: "neednear_session",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL?.startsWith("https"),
   },

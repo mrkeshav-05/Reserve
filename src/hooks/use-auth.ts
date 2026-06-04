@@ -66,7 +66,7 @@ export function useRegister() {
     },
     onSuccess: (user) => {
       queryClient.setQueryData([api.auth.me.path], user);
-      toast({ title: "Account created!", description: "Welcome to Reserve." });
+      toast({ title: "Account created!", description: "Welcome to Neednear." });
     },
     onError: (error: Error) => {
       toast({ variant: "destructive", title: "Registration failed", description: error.message });

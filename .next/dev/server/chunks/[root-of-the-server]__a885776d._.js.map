@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///Users/abhaysagar/Desktop/projects/Reserve/src/app/api/auth/google/route.ts"],"sourcesContent":["import { NextResponse } from \"next/server\";\n\nexport async function GET() {\n  const clientId = process.env.GOOGLE_CLIENT_ID;\n  const redirectUri = \"http://localhost:5001\";\n\n  if (!clientId) {\n    return NextResponse.json({ error: \"Google Client ID is missing\" }, { status: 500 });\n  }\n\n  const scope = \"https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile\";\n  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;\n\n  return NextResponse.redirect(authUrl);\n}\n"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe;IACpB,MAAM,WAAW,QAAQ,GAAG,CAAC,gBAAgB;IAC7C,MAAM,cAAc;IAEpB,IAAI,CAAC,UAAU;QACb,OAAO,gJAAY,CAAC,IAAI,CAAC;YAAE,OAAO;QAA8B,GAAG;YAAE,QAAQ;QAAI;IACnF;IAEA,MAAM,QAAQ;IACd,MAAM,UAAU,CAAC,uDAAuD,EAAE,SAAS,cAAc,EAAE,YAAY,0BAA0B,EAAE,MAAM,mCAAmC,CAAC;IAErL,OAAO,gJAAY,CAAC,QAAQ,CAAC;AAC/B"}}]
+}

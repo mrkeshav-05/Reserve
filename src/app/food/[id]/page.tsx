@@ -6,7 +6,7 @@ import { Layout } from "@/components/layout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, MapPin, Ticket, ShieldCheck, Tag } from "lucide-react";
+import { ArrowLeft, Clock, MapPin, Ticket, ShieldCheck, Tag, Info } from "lucide-react";
 import { formatDistanceToNow, isPast, format } from "date-fns";
 
 export default function FoodDetailPage() {
@@ -79,9 +79,9 @@ export default function FoodDetailPage() {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8 max-w-5xl">
-        <Button 
-          variant="ghost" 
-          onClick={() => router.back()} 
+        <Button
+          variant="ghost"
+          onClick={() => router.back()}
           className="mb-6 -ml-4 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -92,7 +92,7 @@ export default function FoodDetailPage() {
           {/* Main Content Column */}
           <div className="flex-1">
             {/* Hero Image Section */}
-            <div 
+            <div
               className="relative h-[300px] md:h-[400px] rounded-3xl overflow-hidden mb-8 border border-border/50"
               style={{
                 backgroundImage: `url(${imageUrl})`,
@@ -102,13 +102,13 @@ export default function FoodDetailPage() {
             >
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/60" />
-              
+
               <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
                 <div className="flex justify-between items-start">
                   <Badge variant={listing.isDonation ? "default" : "secondary"} className="shadow-sm text-sm px-4 py-1.5 rounded-full backdrop-blur-md bg-opacity-90">
                     {listing.isDonation ? "Donation (Free)" : `${discountPercent}% OFF`}
                   </Badge>
-                  
+
                   <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 shadow-sm text-emerald-800">
                     <Clock className="w-4 h-4" />
                     {expired ? "Expired" : `Expires ${formatDistanceToNow(new Date(listing.expiryTimestamp), { addSuffix: true })}`}
@@ -120,10 +120,46 @@ export default function FoodDetailPage() {
             <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
               {listing.title}
             </h1>
-            
+
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               {listing.description}
             </p>
+
+            {/* Nutritional Info */}
+            {!!listing.nutritionalInfo && (
+              <div className="bg-white rounded-2xl p-6 border border-border/50 mb-8 shadow-sm">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <Info className="w-5 h-5 text-orange-500" />
+                  Estimated Nutritional Value (per 100g)
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {(listing.nutritionalInfo as any).calories && (
+                    <div className="bg-orange-50 rounded-xl p-4 text-center border border-orange-100">
+                      <p className="text-sm text-orange-600/80 font-medium mb-1">Calories</p>
+                      <p className="text-2xl font-bold text-orange-700">{(listing.nutritionalInfo as any).calories} <span className="text-base font-normal text-orange-600">kcal</span></p>
+                    </div>
+                  )}
+                  {(listing.nutritionalInfo as any).protein && (
+                    <div className="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+                      <p className="text-sm text-blue-600/80 font-medium mb-1">Protein</p>
+                      <p className="text-2xl font-bold text-blue-700">{(listing.nutritionalInfo as any).protein} <span className="text-base font-normal text-blue-600">g</span></p>
+                    </div>
+                  )}
+                  {(listing.nutritionalInfo as any).carbs && (
+                    <div className="bg-yellow-50 rounded-xl p-4 text-center border border-yellow-100">
+                      <p className="text-sm text-yellow-600/80 font-medium mb-1">Carbs</p>
+                      <p className="text-2xl font-bold text-yellow-700">{(listing.nutritionalInfo as any).carbs} <span className="text-base font-normal text-yellow-600">g</span></p>
+                    </div>
+                  )}
+                  {(listing.nutritionalInfo as any).fats && (
+                    <div className="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
+                      <p className="text-sm text-emerald-600/80 font-medium mb-1">Fats</p>
+                      <p className="text-2xl font-bold text-emerald-700">{(listing.nutritionalInfo as any).fats} <span className="text-base font-normal text-emerald-600">g</span></p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Provider and Location Details */}
             <div className="bg-muted/30 rounded-2xl p-6 border border-border/50">
@@ -145,7 +181,7 @@ export default function FoodDetailPage() {
           {/* Sticky Sidebar */}
           <div className="w-full lg:w-[380px]">
             <div className="sticky top-24 bg-card rounded-3xl p-8 border border-border shadow-xl shadow-emerald-500/5">
-              
+
               <div className="mb-8">
                 {listing.isDonation ? (
                   <p className="text-5xl font-bold text-primary">$0.00</p>
@@ -172,7 +208,7 @@ export default function FoodDetailPage() {
                     <p className="text-foreground">{listing.pickupWindow}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-2xl">
                   <ShieldCheck className="w-5 h-5 text-emerald-500 mt-0.5" />
                   <div>
@@ -184,9 +220,9 @@ export default function FoodDetailPage() {
 
               {/* Action Area */}
               {!user ? (
-                 <Button className="w-full py-6 text-lg rounded-xl shadow-lg shadow-primary/20" onClick={() => router.push("/auth")}>
-                   Sign In to Claim
-                 </Button>
+                <Button className="w-full py-6 text-lg rounded-xl shadow-lg shadow-primary/20" onClick={() => router.push("/auth")}>
+                  Sign In to Claim
+                </Button>
               ) : isClaimed ? (
                 listing.claimerId === user.id ? (
                   <div className="text-center p-6 bg-emerald-50/50 rounded-2xl border border-emerald-100">
@@ -206,7 +242,7 @@ export default function FoodDetailPage() {
                   </div>
                 )
               ) : (
-                <Button 
+                <Button
                   onClick={() => claimMutation.mutate(listing.id)}
                   disabled={!canClaim || claimMutation.isPending}
                   className="w-full py-6 text-lg rounded-xl shadow-xl shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all text-white"
@@ -214,7 +250,7 @@ export default function FoodDetailPage() {
                   {claimMutation.isPending ? "Claiming..." : "Claim This Food Now"}
                 </Button>
               )}
-              
+
               {expired && !isClaimed && (
                 <div className="mt-4 text-center">
                   <p className="text-red-500 font-medium text-sm">This listing has expired.</p>

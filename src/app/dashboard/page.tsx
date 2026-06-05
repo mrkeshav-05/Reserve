@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Layout } from "@/components/layout";
 import { FoodCard } from "@/components/food-card";
@@ -41,21 +41,26 @@ export default function Dashboard() {
   const createMutation = useCreateListing();
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  // Redirect if not Provider
-  if (!userLoading && user && user.role !== "Provider") {
-    router.push("/");
-    return null;
-  }
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     quantity: 1,
     originalPrice: 10.00,
-    expiryTimestamp: new Date(Date.now() + 86400000).toISOString().slice(0, 16), // Tomorrow
+    expiryTimestamp: new Date(Date.now() + 86400000).toISOString().slice(0, 16),
     pickupWindow: "5 PM - 7 PM",
     isDonation: false,
   });
+
+  useEffect(() => {
+    if (!userLoading && user && user.role !== "Provider") {
+      router.push("/");
+    }
+  }, [userLoading, user, router]);
+
+  // Redirect if not Provider
+  if (!userLoading && user && user.role !== "Provider") {
+    return null;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,127 +94,133 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button className="rounded-xl h-12 px-6 shadow-lg shadow-primary/20 hover:shadow-xl transition-all">
-              <Plus className="w-5 h-5 mr-2" />
-              List All the Surplus Food
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px] rounded-3xl p-0 overflow-hidden border-0">
-            <div className="bg-gradient-to-br from-emerald-500 to-primary p-6 text-white">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-display text-white">Create New Listing</DialogTitle>
-                <DialogDescription className="text-emerald-100">
-                  Help reduce waste by listing your surplus food. It will be immediately available to the community.
-                </DialogDescription>
-              </DialogHeader>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Item Title</Label>
-                  <Input 
-                    id="title" 
-                    placeholder="e.g. 5 Boxes of Assorted Pastries" 
-                    className="rounded-xl bg-background"
-                    value={formData.title}
-                    onChange={e => setFormData({...formData, title: e.target.value})}
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea 
-                    id="description" 
-                    placeholder="What's included? Any allergens?" 
-                    className="rounded-xl bg-background resize-none h-24"
-                    value={formData.description}
-                    onChange={e => setFormData({...formData, description: e.target.value})}
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="quantity">Quantity of food (portions)</Label>
-                    <Input 
-                      id="quantity" 
-                      type="number" 
-                      min="1" 
-                      className="rounded-xl bg-background"
-                      value={formData.quantity}
-                      onChange={e => setFormData({...formData, quantity: Number(e.target.value)})}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="originalPrice">Original Price of food  ($)</Label>
-                    <Input 
-                      id="originalPrice" 
-                      type="number" 
-                      step="0.01" 
-                      min="0" 
-                      className="rounded-xl bg-background"
-                      value={formData.originalPrice}
-                      onChange={e => setFormData({...formData, originalPrice: Number(e.target.value)})}
-                      disabled={formData.isDonation}
-                      required={!formData.isDonation}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="expiry">Expiry Time of food </Label>
-                    <Input 
-                      id="expiry" 
-                      type="datetime-local" 
-                      className="rounded-xl bg-background"
-                      value={formData.expiryTimestamp}
-                      onChange={e => setFormData({...formData, expiryTimestamp: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="pickup">Pickup Window</Label>
-                    <Input 
-                      id="pickup" 
-                      placeholder="e.g. 5:00 PM - 6:30 PM" 
-                      className="rounded-xl bg-background"
-                      value={formData.pickupWindow}
-                      onChange={e => setFormData({...formData, pickupWindow: e.target.value})}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                  <Checkbox 
-                    id="donation" 
-                    checked={formData.isDonation}
-                    onCheckedChange={(checked) => setFormData({...formData, isDonation: checked as boolean, originalPrice: checked ? 0 : formData.originalPrice})}
-                  />
-                  <div className="space-y-1 leading-none">
-                    <label htmlFor="donation" className="text-sm font-medium leading-none text-emerald-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      List as Donation (Free)
-                    </label>
-                    <p className="text-xs text-emerald-700">Perfect for NGOs and shelters</p>
-                  </div>
-                </div>
+        <div className="flex gap-3">
+          <Button onClick={() => router.push('/food/new')} variant="outline" className="rounded-xl h-12 px-6 border-primary text-primary hover:bg-primary/5">
+            <Plus className="w-5 h-5 mr-2" />
+            Add Food Item
+          </Button>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className="rounded-xl h-12 px-6 shadow-lg shadow-primary/20 hover:shadow-xl transition-all">
+                <Plus className="w-5 h-5 mr-2" />
+                List All the Surplus Food
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[600px] rounded-3xl p-0 overflow-hidden border-0">
+              <div className="bg-gradient-to-br from-emerald-500 to-primary p-6 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-display text-white">Create New Listing</DialogTitle>
+                  <DialogDescription className="text-emerald-100">
+                    Help reduce waste by listing your surplus food. It will be immediately available to the community.
+                  </DialogDescription>
+                </DialogHeader>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-border">
-                <Button variant="ghost" type="button" onClick={() => setOpen(false)} className="rounded-xl">Cancel</Button>
-                <Button type="submit" disabled={createMutation.isPending} className="rounded-xl shadow-lg shadow-primary/20">
-                  {createMutation.isPending ? "Publishing..." : "Publish Listing"}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+              <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Item Title</Label>
+                    <Input
+                      id="title"
+                      placeholder="e.g. 5 Boxes of Assorted Pastries"
+                      className="rounded-xl bg-background"
+                      value={formData.title}
+                      onChange={e => setFormData({ ...formData, title: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      id="description"
+                      placeholder="What's included? Any allergens?"
+                      className="rounded-xl bg-background resize-none h-24"
+                      value={formData.description}
+                      onChange={e => setFormData({ ...formData, description: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="quantity">Quantity of food (portions)</Label>
+                      <Input
+                        id="quantity"
+                        type="number"
+                        min="1"
+                        className="rounded-xl bg-background"
+                        value={formData.quantity}
+                        onChange={e => setFormData({ ...formData, quantity: Number(e.target.value) })}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="originalPrice">Original Price of food  ($)</Label>
+                      <Input
+                        id="originalPrice"
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        className="rounded-xl bg-background"
+                        value={formData.originalPrice}
+                        onChange={e => setFormData({ ...formData, originalPrice: Number(e.target.value) })}
+                        disabled={formData.isDonation}
+                        required={!formData.isDonation}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="expiry">Expiry Time of food </Label>
+                      <Input
+                        id="expiry"
+                        type="datetime-local"
+                        className="rounded-xl bg-background"
+                        value={formData.expiryTimestamp}
+                        onChange={e => setFormData({ ...formData, expiryTimestamp: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="pickup">Pickup Window</Label>
+                      <Input
+                        id="pickup"
+                        placeholder="e.g. 5:00 PM - 6:30 PM"
+                        className="rounded-xl bg-background"
+                        value={formData.pickupWindow}
+                        onChange={e => setFormData({ ...formData, pickupWindow: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-3 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <Checkbox
+                      id="donation"
+                      checked={formData.isDonation}
+                      onCheckedChange={(checked) => setFormData({ ...formData, isDonation: checked as boolean, originalPrice: checked ? 0 : formData.originalPrice })}
+                    />
+                    <div className="space-y-1 leading-none">
+                      <label htmlFor="donation" className="text-sm font-medium leading-none text-emerald-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        List as Donation (Free)
+                      </label>
+                      <p className="text-xs text-emerald-700">Perfect for NGOs and shelters</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-4 border-t border-border">
+                  <Button variant="ghost" type="button" onClick={() => setOpen(false)} className="rounded-xl">Cancel</Button>
+                  <Button type="submit" disabled={createMutation.isPending} className="rounded-xl shadow-lg shadow-primary/20">
+                    {createMutation.isPending ? "Publishing..." : "Publish Listing"}
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">

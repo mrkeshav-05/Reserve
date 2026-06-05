@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, numeric } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, numeric, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -28,6 +28,9 @@ export const foodListings = pgTable("food_listings", {
   isDonation: boolean("is_donation").notNull().default(false),
   claimCode: text("claim_code"),
   claimerId: integer("claimer_id"),
+  pricingRule: text("pricing_rule"),
+  imageUrl: text("image_url"),
+  nutritionalInfo: jsonb("nutritional_info"),
   createdAt: timestamp("created_at").defaultNow()
 });
 

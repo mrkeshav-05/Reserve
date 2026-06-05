@@ -24,8 +24,16 @@ export async function GET() {
       l.status = 'Expired';
       await updateListing(l.id, { status: 'Expired' });
     } else if (l.status === 'Available' && !l.isDonation) {
-      const newPrice = calculateDynamicPrice(parseFloat(l.originalPrice?.toString() || "0"), new Date(l.expiryTimestamp));
-      l.currentPrice = newPrice.toFixed(2);
+      if (l.pricingRule) {
+        // Use the new dynamic pricing logic
+        const { calculateCurrentPrice } = await import("@/lib/pricing");
+        const newPrice = calculateCurrentPrice(parseFloat(l.originalPrice?.toString() || "0"), new Date(l.expiryTimestamp), l.pricingRule);
+        l.currentPrice = newPrice.toFixed(2);
+      } else {
+        // Fallback older logic
+        const newPrice = calculateDynamicPrice(parseFloat(l.originalPrice?.toString() || "0"), new Date(l.expiryTimestamp));
+        l.currentPrice = newPrice.toFixed(2);
+      }
     }
     return l;
   }));

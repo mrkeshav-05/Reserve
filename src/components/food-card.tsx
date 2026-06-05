@@ -19,7 +19,7 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
 
   const expired = isPast(new Date(listing.expiryTimestamp));
   const isClaimed = listing.status === "Reserved" || listing.status === "Completed";
-  
+
   // Calculate dynamic price based on time to expiry (mock logic, actual should be in backend)
   // But we render whatever the backend sent as currentPrice
   const discountPercent = Math.round(
@@ -35,7 +35,7 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
     "1504674900247-0877df9cc836",
   ];
   const imageId = foodImageIds[listing.id % foodImageIds.length];
-  const imageUrl = `https://images.unsplash.com/photo-${imageId}?auto=format&fit=crop&q=80&w=800`;
+  const imageUrl = listing.imageUrl || `https://images.unsplash.com/photo-${imageId}?auto=format&fit=crop&q=80&w=800`;
 
   const canClaim = !expired && !isClaimed && user && user.role !== "Provider";
 
@@ -44,7 +44,7 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
   };
 
   return (
-    <div 
+    <div
       onClick={handleCardClick}
       className={`
       relative group bg-card rounded-2xl overflow-hidden
@@ -54,7 +54,7 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
       ${expired ? 'opacity-75 grayscale-[0.5]' : ''}
     `}>
       {/* Image / Header area */}
-      <div 
+      <div
         className="h-48 p-6 flex flex-col justify-between relative overflow-hidden"
         style={{
           backgroundImage: `url(${imageUrl})`,
@@ -69,13 +69,13 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
           <Badge variant={listing.isDonation ? "default" : "secondary"} className="shadow-sm">
             {listing.isDonation ? "Donation (Free)" : `${discountPercent}% OFF`}
           </Badge>
-          
+
           <div className="bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 shadow-sm text-emerald-800">
             <Clock className="w-4 h-4" />
             {expired ? "Expired" : formatDistanceToNow(new Date(listing.expiryTimestamp), { addSuffix: true })}
           </div>
         </div>
-        
+
         <div className="relative z-10 mt-auto">
           <h3 className="text-xl font-display font-bold text-white line-clamp-2 drop-shadow-md">{listing.title}</h3>
           <p className="text-emerald-50 flex items-center gap-1.5 text-sm mt-2 drop-shadow-md">
@@ -86,9 +86,29 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
       </div>
 
       <div className="p-6 flex-1 flex flex-col">
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-1">
+        <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
           {listing.description}
         </p>
+
+        {!!listing.nutritionalInfo && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {(listing.nutritionalInfo as any).calories && (
+              <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-orange-50 text-orange-700 border-orange-200">
+                {(listing.nutritionalInfo as any).calories} kcal
+              </Badge>
+            )}
+            {(listing.nutritionalInfo as any).protein && (
+              <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-700 border-blue-200">
+                Protein: {(listing.nutritionalInfo as any).protein} g
+              </Badge>
+            )}
+            {(listing.nutritionalInfo as any).carbs && (
+              <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-yellow-50 text-yellow-700 border-yellow-200">
+                Carbs: {(listing.nutritionalInfo as any).carbs} g
+              </Badge>
+            )}
+          </div>
+        )}
 
         <div className="grid grid-cols-2 gap-4 mb-6 py-4 border-y border-border/50">
           <div>
@@ -115,21 +135,21 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
 
           {!showProviderControls ? (
             isClaimed ? (
-               listing.claimerId === user?.id ? (
-                 <div className="text-right">
-                   <p className="text-xs text-muted-foreground mb-1">Your Claim Code</p>
-                   <Badge variant="outline" className="text-lg px-3 py-1 bg-emerald-50 text-emerald-700 border-emerald-200">
-                     <Ticket className="w-4 h-4 mr-2" />
-                     {listing.claimCode}
-                   </Badge>
-                 </div>
-               ) : (
-                 <Badge variant="secondary" className="px-4 py-2 text-sm bg-gray-100 text-gray-500 hover:bg-gray-100">
-                   <ShieldCheck className="w-4 h-4 mr-2" /> Reserved
-                 </Badge>
-               )
+              listing.claimerId === user?.id ? (
+                <div className="text-right">
+                  <p className="text-xs text-muted-foreground mb-1">Your Claim Code</p>
+                  <Badge variant="outline" className="text-lg px-3 py-1 bg-emerald-50 text-emerald-700 border-emerald-200">
+                    <Ticket className="w-4 h-4 mr-2" />
+                    {listing.claimCode}
+                  </Badge>
+                </div>
+              ) : (
+                <Badge variant="secondary" className="px-4 py-2 text-sm bg-gray-100 text-gray-500 hover:bg-gray-100">
+                  <ShieldCheck className="w-4 h-4 mr-2" /> Reserved
+                </Badge>
+              )
             ) : !user ? (
-              <Button 
+              <Button
                 onClick={(e) => {
                   e.stopPropagation();
                   router.push('/auth');
@@ -139,7 +159,7 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
                 Sign In to Claim
               </Button>
             ) : (
-              <Button 
+              <Button
                 onClick={(e) => {
                   e.stopPropagation();
                   claimMutation.mutate(listing.id);

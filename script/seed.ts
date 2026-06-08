@@ -12,6 +12,10 @@ async function hashPassword(password: string) {
 }
 
 async function seed() {
+  console.log("Cleaning existing data from database...");
+  await db.delete(foodListings);
+  await db.delete(users);
+
   console.log("Seeding database...");
 
   // Generate some hashed passwords
@@ -77,7 +81,13 @@ async function seed() {
       expiryTimestamp: tomorrow,
       pickupWindow: "18:00 - 20:00",
       status: "Available",
-      isDonation: false
+      isDonation: false,
+      nutritionalInfo: {
+        calories: 380,
+        protein: 6,
+        carbs: 48,
+        fats: 18
+      }
     },
     {
       providerId: provider.id,
@@ -89,7 +99,13 @@ async function seed() {
       expiryTimestamp: tomorrow,
       pickupWindow: "17:00 - 19:00",
       status: "Available",
-      isDonation: true
+      isDonation: true,
+      nutritionalInfo: {
+        calories: 250,
+        protein: 8,
+        carbs: 52,
+        fats: 1
+      }
     },
     {
       providerId: provider.id,
@@ -101,7 +117,13 @@ async function seed() {
       expiryTimestamp: nextWeek,
       pickupWindow: "12:00 - 15:00",
       status: "Available",
-      isDonation: false
+      isDonation: false,
+      nutritionalInfo: {
+        calories: 270,
+        protein: 9,
+        carbs: 56,
+        fats: 1.5
+      }
     }
   ]).returning();
 

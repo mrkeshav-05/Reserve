@@ -107,6 +107,11 @@ export function FoodCard({ listing, showProviderControls = false }: FoodCardProp
                 Carbs: {(listing.nutritionalInfo as any).carbs} g
               </Badge>
             )}
+            {(listing.nutritionalInfo as any).fats && (
+              <Badge variant="outline" className="text-[10px] px-2 py-0.5 bg-emerald-50 text-emerald-700 border-emerald-200">
+                Fats: {(listing.nutritionalInfo as any).fats} g
+              </Badge>
+            )}
           </div>
         )}
 

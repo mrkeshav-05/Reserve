@@ -1,39 +1,11 @@
-[00:00:01.227] Server  LOG     
-[00:00:01.227] Server  LOG       We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
-[00:00:01.227] Server  LOG       The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
-
-[00:00:01.228] Server  LOG       	- target was set to ES2017 (For top-level `await`. Note: Next.js only polyfills for the esmodules target.)
-[00:00:01.228] Server  LOG       	- include was updated to add '.next/dev/types/**/*.ts'
-[00:00:01.228] Server  LOG     
-[00:00:01.228] Server  LOG       The following mandatory changes were made to your tsconfig.json:
-
-[00:00:01.228] Server  LOG       	- jsx was set to react-jsx (next.js uses the React automatic runtime)
-[00:00:01.228] Server  LOG     
-[00:00:01.308] Server  LOG     ✓ Ready in 1085ms
-[00:00:09.922] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:10.258] Server  WARN    DATABASE_URL must be set. Using a dummy connection string for build purposes.
-[00:00:10.369] Server  ERROR   ⨯ AggregateError
-[00:00:10.412] Server  ERROR   ⨯ AggregateError
-[00:00:11.421] Server  ERROR   ⨯ AggregateError
-[00:00:11.459] Server  ERROR   ⨯ AggregateError
-[00:00:13.464] Server  ERROR   ⨯ AggregateError
-[00:00:13.499] Server  ERROR   ⨯ AggregateError
-[00:00:17.544] Server  ERROR   ⨯ AggregateError
-[00:00:17.603] Server  ERROR   ⨯ AggregateError
-[00:06:20.490] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:06:20.589] Server  ERROR   ⨯ AggregateError
-[00:06:20.622] Server  ERROR   ⨯ AggregateError
-[00:06:21.656] Server  ERROR   ⨯ AggregateError
-[00:06:21.713] Server  ERROR   ⨯ AggregateError
-[00:06:23.722] Server  ERROR   ⨯ AggregateError
-[00:06:23.763] Server  ERROR   ⨯ AggregateError
-[00:06:27.784] Server  ERROR   ⨯ AggregateError
-[00:06:27.844] Server  ERROR   ⨯ AggregateError
-[00:06:53.650] Server  ERROR   ⨯ AggregateError
-[00:06:53.695] Server  ERROR   ⨯ AggregateError
-[00:06:54.712] Server  ERROR   ⨯ AggregateError
-[00:06:54.747] Server  ERROR   ⨯ AggregateError
-[00:06:56.770] Server  ERROR   ⨯ AggregateError
-[00:06:56.822] Server  ERROR   ⨯ AggregateError
-[00:07:00.832] Server  ERROR   ⨯ AggregateError
-[00:07:00.870] Server  ERROR   ⨯ AggregateError
+{"timestamp":"00:00:01.471","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:04:22.795","source":"Server","level":"LOG","message":"✓ Compiled in 683ms"}
+{"timestamp":"00:04:56.477","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:06:17.490","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:17.788","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:18.679","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:18.930","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:19.209","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:19.478","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:19.803","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
+{"timestamp":"00:06:20.068","source":"Server","level":"ERROR","message":"⨯ Error: The router state header was sent but could not be parsed."}
